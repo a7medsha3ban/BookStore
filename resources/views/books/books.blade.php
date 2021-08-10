@@ -1,4 +1,4 @@
-@extends('Layouts.book-layout')
+@extends('Layouts.layout')
 
 @section('content')
 
@@ -8,10 +8,12 @@
             <h5>{{$category->name}}</h5>
         @endforeach
         <p>{{$book->description}}
-        <p>
-            <a href="{{URL('/books/edit/'.$book->id)}}">Edit Book</a>
-            <a href="{{URL('/books/delete/'.$book->id)}}">Delete Book</a>
-        </p>
+        @auth
+            <p>
+                <a href="{{URL('/books/edit/'.$book->id)}}">Edit Book</a>
+                <a href="{{URL('/books/delete/'.$book->id)}}">Delete Book</a>
+            </p>
+        @endauth
         <hr/>
     @endforeach
 

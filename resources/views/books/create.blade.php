@@ -1,4 +1,4 @@
-@extends('Layouts.book-layout')
+@extends('Layouts.layout')
 
 @section('content')
     @if($errors)

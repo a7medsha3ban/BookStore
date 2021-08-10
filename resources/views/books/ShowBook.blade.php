@@ -1,4 +1,4 @@
-@extends('Layouts.book-layout')
+@extends('Layouts.layout')
 @section('content')
 
 <div>
@@ -11,8 +11,10 @@
         <img class="img-fluid" src="{{asset($book->image)}}" width="500">
         @endif
         <hr/>
-        <a href="{{URL('/books/edit/'.$book->id)}}">Edit Book</a>
-        <a href="{{URL('/books/delete/'.$book->id)}}">Delete Book</a>
-        <a href="{{URL('/books/list')}}">return to all books</a>
+        @auth
+            <a href="{{URL('/books/edit/'.$book->id)}}">Edit Book</a>
+            <a href="{{URL('/books/delete/'.$book->id)}}">Delete Book</a>
+            <a href="{{URL('/books/list')}}">return to all books</a>
+        @endauth
 </div>
 @endsection

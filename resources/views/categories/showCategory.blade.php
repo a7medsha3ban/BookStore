@@ -1,4 +1,5 @@
-@extends('Layouts.category-layout')
+@extends('Layouts.layout')
+
 @section('content')
 
 <div>

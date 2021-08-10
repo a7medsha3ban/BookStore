@@ -21,14 +21,35 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{url("books/create")}}">Add Book</a>
-                </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{url("books/create")}}">Add Book</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{url("categories/create")}}">Add Category</a>
+                    </li>
+                    <li class="nav-item">
+                @endauth
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <ul class="navbar-nav ml-auto">
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{url("login")}}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{url("register")}}">Register</a>
+                    </li>
+                @endguest
+
+                @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{Auth::user()->email}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{url("logout")}}">Logout</a>
+                        </li>
+                    @endauth
+            </ul>
         </div>
     </div>
 </nav>
