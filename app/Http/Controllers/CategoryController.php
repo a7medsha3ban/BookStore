@@ -14,7 +14,7 @@ class CategoryController extends Controller
         $categories=category::get();
 //        dd($categories);
 //        'categories' -> dh el esm el htroh beh fe el blade w $books dh el variable el fe el controller
-        return view('categories',[
+        return view('categories.categories',[
             // 'categories' -> dh el esm el htroh beh fe el blade w $books dh el variable el fe el controller
             'categories'=>$categories,
         ]);
@@ -25,14 +25,14 @@ class CategoryController extends Controller
 //      2 ways to find something with the id
 //      $book=Book::find($id);
         $category=category::where('id','=',$id)->first();
-        return view('showCategory',[
+        return view('categories.showCategory',[
             'category'=>$category,
         ]);
     }
 
     //function to create form
     function create(){
-        return view('createCategory');
+        return view('categories.createCategory');
     }
 
     //function to create new book in database
@@ -70,7 +70,7 @@ class CategoryController extends Controller
     function edit($id){
 //      $book=Book::where('id','=',$id)->first();
         $category=category::find($id);
-        return view('editCategory',[
+        return view('categories.editCategory',[
             'category'=>$category
         ]);
     }

@@ -13,7 +13,7 @@ class BookController extends Controller
         $books=Book::get();
 //        dd($books);
 //        'books' -> dh el esm el htroh beh fe el blade w $books dh el variable el fe el controller
-        return view('books',[
+        return view('books.books',[
             // 'books' -> dh el esm el htroh beh fe el blade w $books dh el variable el fe el controller
             'books'=>$books,
         ]);
@@ -24,14 +24,14 @@ class BookController extends Controller
 //      2 ways to find something with the id
 //      $book=Book::find($id);
         $book=Book::where('id','=',$id)->first();
-        return view('ShowBook',[
+        return view('books.ShowBook',[
             'book'=>$book,
         ]);
     }
 
     //function to create form
     function create(){
-        return view('create');
+        return view('books.create');
     }
 
     //function to create new book in database
@@ -86,7 +86,7 @@ class BookController extends Controller
     function edit($id){
 //      $book=Book::where('id','=',$id)->first();
         $book=Book::find($id);
-        return view('edit',[
+        return view('books.edit',[
             'book'=>$book
         ]);
     }
