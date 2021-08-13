@@ -22,5 +22,6 @@ class IsGuest
         }
         else{
             return redirect('books/list');
-        }    }
+        }
+    }
 }

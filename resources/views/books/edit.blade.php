@@ -21,7 +21,16 @@
             <label for="exampleInputPassword1" class="form-label">Image</label>
             <input type="file" class="form-control" id="exampleInputPassword1" name="bookImage">
         </div>
-
+        <div class="mb-3">
+            @foreach($categories as $category)
+                <div class="form-check">
+                    <input name="category_ids[]" class="form-check-input" type="checkbox" value="{{$category->id}}" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        {{$category->name}}
+                    </label>
+                </div>
+            @endforeach
+        </div>
         <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 

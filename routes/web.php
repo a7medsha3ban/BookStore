@@ -67,6 +67,11 @@ Route::middleware('isLogin')->group(function (){
     // Route to logout
     Route::get('logout','AuthController@logout');
 
+    // Route to notes form
+    Route::get('notes/create','NoteController@create');
+    // Route to add note
+    Route::post('notes/add','NoteController@add');
+
 
 });
 

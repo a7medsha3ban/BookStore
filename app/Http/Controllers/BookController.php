@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 use App\Book;
 
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
-    //function to lisct all books in database
+    //function to list all books in database
     function list(){
         $books=Book::get();
 //        dd($books);
@@ -31,7 +32,11 @@ class BookController extends Controller
 
     //function to create form
     function create(){
-        return view('books.create');
+        $categories = Category:: select('id','name')->get();
+        return view('books.create',[
+            'categories'=>$categories,
+             compact($categories)
+        ]);
     }
 
     //function to create new book in database
@@ -49,7 +54,9 @@ class BookController extends Controller
         $validated=validator::make($request->all(),[
             'bookName'=>'required|max:100|min:3',
             'bookDescription'=>'required|max:100|min:3',
-            'bookImage'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'bookImage'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_ids' => 'required',
+            'category_ids.*' => 'exists:categories,id',
         ]);
 
         if($validated->fails()){
@@ -78,6 +85,7 @@ class BookController extends Controller
         $book->description=$request->bookDescription;
         $book->image=$imagePath;
         $book->save();
+        $book->categories()->sync($request->category_ids);
         return redirect('books/list');
 
     }
@@ -86,8 +94,11 @@ class BookController extends Controller
     function edit($id){
 //      $book=Book::where('id','=',$id)->first();
         $book=Book::find($id);
+        $categories = Category:: select('id','name')->get();
         return view('books.edit',[
-            'book'=>$book
+            'book'=>$book,
+            'categories'=>$categories,
+            compact($categories)
         ]);
     }
 
@@ -95,7 +106,9 @@ class BookController extends Controller
         $validated=validator::make($request->all(),[
             'bookName'=>'required|max:100|min:3',
             'bookDescription'=>'required|max:100|min:3',
-            'bookImage'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'bookImage'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_ids' => 'required',
+            'category_ids.*' => 'exists:categories,id',
        ]);
 
         if($validated->fails()){
@@ -120,7 +133,7 @@ class BookController extends Controller
             }
             $book->image=$imagePath;
         }
-
+        $book->categories()->sync($request->category_ids);
         $book->save();
         return redirect('books/show/'.$id);
     }
