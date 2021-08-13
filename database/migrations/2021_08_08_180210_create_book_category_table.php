@@ -17,7 +17,6 @@ class CreateBookCategoryTable extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('book_id')->constrained();
-            $table->timestamps();
         });
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\DocBlock\Tags\Uses;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -61,6 +61,32 @@ class AuthController extends Controller
     public function logout(){
         Auth::logout();
         return back();
+    }
+
+    public function redirectToProvider()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function handleProviderCallback()
+    {
+        $user = Socialite::driver('github')->user();
+        //dd($user);
+        // $user->token;
+        $db_user=User::where('email','=',$user->email)->first();
+        if($db_user == null){
+           $rgisteredUser= User::create([
+                'email' =>$user->email,
+                'password' => Hash::make('123456'),
+                'oauth_token'=>$user->token,
+
+            ]);
+            Auth::login($rgisteredUser);
+        }
+        else{
+            Auth::login($db_user);
+        }
+        return redirect('books/list');
     }
 
 }

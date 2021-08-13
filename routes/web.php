@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Layouts.welcome');
 });
 
+Route::get('login/github', 'AuthController@redirectToProvider');
+Route::get('login/github/callback', 'AuthController@handleProviderCallback');
 
 Route::middleware('isLogin')->group(function (){
 

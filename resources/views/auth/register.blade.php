@@ -19,5 +19,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
     </form>
+    <a href="{{url('login/github')}}" class="btn btn-success">Sign up with github</a>
 
 @endsection

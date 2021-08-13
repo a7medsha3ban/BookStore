@@ -19,5 +19,5 @@
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
-
+    <a href="{{url('login/github')}}" class="btn btn-success">Sign in with github</a>
 @endsection
