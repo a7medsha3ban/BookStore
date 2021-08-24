@@ -19,7 +19,7 @@ class ApiBookController extends Controller
     public function showBook($id){
 //      2 ways to find something with the id
 //      $book=Book::find($id);
-        $book=Book::where('id','=',$id)->first();
+        $book=Book::with('categories')->where('id','=',$id)->first();
         return response()->json($book);
     }
 
