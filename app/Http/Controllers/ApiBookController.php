@@ -1,46 +1,30 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Book;
 
+use App\Book;
 use App\Category;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class BookController extends Controller
+class ApiBookController extends Controller
 {
-    //function to list all books in database
-    function list(){
+    public function listBooks(){
         $books=Book::get();
-//        dd($books);
-//        'books' -> dh el esm el htroh beh fe el blade w $books dh el variable el fe el controller
-        return view('books.books',[
-            // 'books' -> dh el esm el htroh beh fe el blade w $books dh el variable el fe el controller
-            'books'=>$books,
-        ]);
+        return response()->json($books);
     }
 
-    //function to show a book from database with specific id
-    function show($id){
+
+    public function showBook($id){
 //      2 ways to find something with the id
 //      $book=Book::find($id);
         $book=Book::where('id','=',$id)->first();
-        return view('books.ShowBook',[
-            'book'=>$book,
-        ]);
+        return response()->json($book);
     }
 
-    //function to create form
-    function create(){
-        $categories = Category:: select('id','name')->get();
-        return view('books.create',[
-            'categories'=>$categories,
-             compact($categories)
-        ]);
-    }
 
-    //function to create new book in database
-    function add(Request $request){
+    public function addBook(Request $request){
         //we can validate by 2 methods
 
         //first validation method to validate using function validate in Request class
@@ -60,9 +44,8 @@ class BookController extends Controller
         ]);
 
         if($validated->fails()){
-            return redirect('books/create')
-                ->withErrors($validated)
-                ->withInput();
+            $errors=$validated->errors();
+            return response()->json($errors);
         }
 
         //image upload
@@ -86,35 +69,24 @@ class BookController extends Controller
         $book->image=$imagePath;
         $book->save();
         $book->categories()->sync($request->category_ids);
-        return redirect('books/list');
+        $success_message= 'Book saved successfully';
+        return response()->json($success_message);
 
     }
 
-    //function to edit a book in database
-    function edit($id){
-//      $book=Book::where('id','=',$id)->first();
-        $book=Book::find($id);
-        $categories = Category:: select('id','name')->get();
-        return view('books.edit',[
-            'book'=>$book,
-            'categories'=>$categories,
-            compact($categories)
-        ]);
-    }
 
-    function update($id,Request $request){
+    public function updateBook($id,Request $request){
         $validated=validator::make($request->all(),[
             'bookName'=>'required|max:100|min:3',
             'bookDescription'=>'required|max:100|min:3',
             'bookImage'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'category_ids' => 'required',
             'category_ids.*' => 'exists:categories,id',
-       ]);
+        ]);
 
         if($validated->fails()){
-            return redirect('books/edit/{id}')
-                ->withErrors($validated)
-                ->withInput();
+            $errors=$validated->errors();
+            return response()->json($errors);
         }
         //get the book
         $book=Book::find($id);
@@ -135,11 +107,12 @@ class BookController extends Controller
         }
         $book->categories()->sync($request->category_ids);
         $book->save();
-        return redirect('books/show/'.$id);
+        $success_message= 'Book Updated Successfully';
+        return response()->json($success_message);
     }
 
-    //function to delete a book in database
-    function delete($id){
+
+    public function deleteBook($id){
         $book=Book::find($id);
         if(isset($book->image)){
             unlink($book->image);
@@ -148,6 +121,8 @@ class BookController extends Controller
 //      $book->categories()->detach();
         $book->categories()->sync([]);
         $book->delete();
-        return redirect('books/list');
+        $success_message= 'Book Deleted Successfully';
+        return response()->json($success_message);
     }
+
 }

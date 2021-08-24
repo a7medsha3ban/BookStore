@@ -95,6 +95,8 @@ class CategoryController extends Controller
     //function to delete a book in database
     function delete($id){
         $category=category::find($id);
+//        $category->books()->detach();
+        $category->books()->sync([]);
         $category->delete();
         return redirect('categories/list');
     }
