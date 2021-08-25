@@ -23,10 +23,10 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{url("books/create")}}">Add Book</a>
+                        <a class="nav-link active" aria-current="page" href="{{url("books/create")}}">@lang('site.books')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{url("categories/create")}}">Add Category</a>
+                        <a class="nav-link active" aria-current="page" href="{{url("categories/create")}}">@lang('site.cats')</a>
                     </li>
                     <li class="nav-item">
                 @endauth
@@ -46,7 +46,7 @@
                             <a class="nav-link" href="#">{{Auth::user()->email}}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{url("logout")}}">Logout</a>
+                            <a class="nav-link active" aria-current="page" href="{{url("logout")}}">@lang('site.logout')</a>
                         </li>
                     @endauth
             </ul>

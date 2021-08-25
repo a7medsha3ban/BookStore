@@ -10,6 +10,7 @@ Route::get('/books/list','ApiBookController@listBooks');
 
 Route::get('/books/show/{id}','ApiBookController@showBook');
 
+
 Route::middleware('isApiUser')->group(function (){
 
     Route::get('books/delete/{id}','ApiBookController@deleteBook');
@@ -31,6 +32,7 @@ Route::post('handle-register','ApiAuthController@handleRegister');
 
 
 Route::post('logout','ApiAuthController@logout');
+
 
 
 
